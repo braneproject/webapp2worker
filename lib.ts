@@ -3,10 +3,6 @@ import {
   HTMLDocument,
   Element,
 } from "https://deno.land/x/deno_dom/deno-dom-wasm.ts";
-import {
-  minify,
-  minifyHTML,
-} from "https://deno.land/x/minifier/mod.ts";
 
 type Context = {
   resolvePath: (path: string) => URL,
@@ -140,12 +136,12 @@ function render({
 
 const _vhead = document.createElement('div');
 _vhead.setAttribute('data-vhead', '');
-_vhead.innerHTML = \`${minifyHTML(headContent)}\`;
+_vhead.innerHTML = \`${headContent.trim()}\`;
 _document.appendChild(_vhead);
 
 const _vbody = document.createElement('div');
 _vbody.setAttribute('data-vbody', '');
-_vbody.innerHTML = \`${minifyHTML(bodyContent)}\`;
+_vbody.innerHTML = \`${bodyContent.trim()}\`;
 _document.appendChild(_vbody);
 
 ${styles.map((style, i) => {
@@ -155,7 +151,7 @@ ${styles.map((style, i) => {
     .replace(/\b(body)\b/g, '[data-vbody]');
   return `const ${varname} = document.createElement('style');
 ${varname}.setAttribute('data-vstyle', '${i}');
-${varname}.innerHTML = \`${minify('css', content)}\`;
+${varname}.innerHTML = \`${content.trim()}\`;
 _vhead.appendChild(${varname});
 `;
 }).join('\n')}
@@ -170,7 +166,7 @@ ${scripts.map(script => {
     ? script.src
     : (inlineScriptCount++).toString();
   return `/* -begin ${blockname} */
-${minify('js', script.content)}
+${script.content.trim()}
 /* -end   ${blockname} */
 `;
 }).join('\n')}`;

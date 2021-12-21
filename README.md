@@ -11,7 +11,6 @@ Options:
 
   -h, --help              - Show this help.
   -p, --path    [path]    - Base directory path to resolve assets
-  -m, --minify  [minify]  - Minify result                          (Default: true)
 ```
 
 ## Usage

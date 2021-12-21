@@ -14,5 +14,7 @@ Deno.test("basic", async () => {
     readFile: Deno.readTextFile,
   });
 
+  console.log(actual);
+
   assertEquals(actual, expected);
 });
